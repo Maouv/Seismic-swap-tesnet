@@ -9,7 +9,7 @@ const useWallet = () => {
   const connect = async () => {
     try {
       if (!window.ethereum) {
-        alert('Cant find Metamask, install first')
+        alert('MetaMask not found! Please install MetaMask.')
         return
       }
 
@@ -19,6 +19,9 @@ const useWallet = () => {
 
       setAccount(accounts[0])
       setChainId(Number(network.chainId))
+
+      // Simpan status connected
+      localStorage.setItem('walletConnected', 'true')
 
       if (Number(network.chainId) !== CHAIN_ID) {
         try {
@@ -47,13 +50,19 @@ const useWallet = () => {
   const disconnect = () => {
     setAccount(null)
     setChainId(null)
+    // Hapus status connected
+    localStorage.removeItem('walletConnected')
   }
 
   useEffect(() => {
     if (!window.ethereum) return
 
     const handleAccountsChanged = (accounts) => {
-      setAccount(accounts[0] || null)
+      if (accounts.length === 0) {
+        disconnect()
+      } else {
+        setAccount(accounts[0])
+      }
     }
 
     const handleChainChanged = (chainId) => {
@@ -63,12 +72,15 @@ const useWallet = () => {
     window.ethereum.on('accountsChanged', handleAccountsChanged)
     window.ethereum.on('chainChanged', handleChainChanged)
 
-    // Auto connect jika sudah pernah connect
-    window.ethereum.request({ method: 'eth_accounts' }).then((accounts) => {
-      if (accounts.length > 0) {
-        connect()
-      }
-    })
+    // Auto connect HANYA kalau sebelumnya tidak disconnect
+    const wasConnected = localStorage.getItem('walletConnected')
+    if (wasConnected === 'true') {
+      window.ethereum.request({ method: 'eth_accounts' }).then((accounts) => {
+        if (accounts.length > 0) {
+          connect()
+        }
+      })
+    }
 
     return () => {
       window.ethereum.removeListener('accountsChanged', handleAccountsChanged)
