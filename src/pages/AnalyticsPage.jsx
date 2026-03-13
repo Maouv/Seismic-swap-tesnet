@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import BackgroundFX from '../components/BackgroundFX'
-import NoiseFX from '../components/NoiseFX'
 import Navbar from '../components/Navbar'
 
 const mockData = [
@@ -33,7 +32,6 @@ const AnalyticsPage = () => {
   return (
     <div style={{ minHeight: '100vh', position: 'relative' }}>
       <BackgroundFX />
-      <NoiseFX />
       <Navbar />
       <main style={{
         position: 'relative',
@@ -42,8 +40,6 @@ const AnalyticsPage = () => {
         maxWidth: '900px',
         margin: '0 auto',
       }}>
-
-        {/* Stats */}
         <div ref={statsRef} style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
@@ -51,8 +47,8 @@ const AnalyticsPage = () => {
           marginBottom: '24px',
         }}>
           {[
-            { label: 'ETH/USDC', value: '2,150' },
-            { label: 'ETH/USDT', value: '2,200' },
+            { label: 'ETH/USDC', value: '2,100' },
+            { label: 'ETH/USDT', value: '2,100' },
             { label: 'Total Swaps', value: '128' },
             { label: 'Volume', value: '$48,200' },
           ].map((stat) => (
@@ -67,7 +63,6 @@ const AnalyticsPage = () => {
           ))}
         </div>
 
-        {/* Chart */}
         <div ref={chartRef} className="glass p-6">
           <div style={{ fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: '1.1rem', marginBottom: '24px' }}>
             PRICE CHART
@@ -92,7 +87,6 @@ const AnalyticsPage = () => {
             </LineChart>
           </ResponsiveContainer>
         </div>
-
       </main>
     </div>
   )

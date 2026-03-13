@@ -1,5 +1,4 @@
 import BackgroundFX from '../components/BackgroundFX'
-import NoiseFX from '../components/NoiseFX'
 import Navbar from '../components/Navbar'
 import SwapCard from '../components/SwapCard'
 
@@ -7,7 +6,6 @@ const SwapPage = () => {
   return (
     <div style={{ minHeight: '100vh', position: 'relative' }}>
       <BackgroundFX />
-      <NoiseFX />
       <Navbar />
       <main style={{
         position: 'relative',
